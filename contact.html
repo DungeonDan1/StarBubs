@@ -1,0 +1,451 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Contact Us | StarBubs — Baby & Toddler Classes</title>
+  <meta name="description" content="Get in touch with StarBubs. Questions about classes, booking, or anything else — we'd love to hear from you.">
+  <link rel="icon" type="image/png" href="images/logo.png">
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@400;500;600;700&family=Quicksand:wght@400;500;600;700&display=swap" rel="stylesheet">
+
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          colors: {
+            'sb-red': '#E84545',
+            'sb-blue': '#2D5FE8',
+            'sb-yellow': '#F5C518',
+            'sb-green': '#3DBE5C',
+            'sb-cream': '#FFF9F0',
+            'sb-dark': '#1A1A2E',
+            'sb-peach': '#FFE8D6',
+          },
+          fontFamily: {
+            display: ['Fredoka', 'sans-serif'],
+            body: ['Quicksand', 'sans-serif'],
+          },
+        },
+      },
+    }
+  </script>
+
+  <style>
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    html { scroll-behavior: smooth; }
+    body {
+      font-family: 'Quicksand', sans-serif;
+      color: #1A1A2E;
+      line-height: 1.7;
+      overflow-x: hidden;
+      background: #FFF9F0;
+    }
+    h1, h2, h3, h4 {
+      font-family: 'Fredoka', sans-serif;
+      letter-spacing: -0.03em;
+      line-height: 1.2;
+    }
+    :root {
+      --sb-red: #E84545;
+      --sb-blue: #2D5FE8;
+      --sb-yellow: #F5C518;
+      --sb-green: #3DBE5C;
+      --sb-cream: #FFF9F0;
+      --sb-dark: #1A1A2E;
+      --sb-peach: #FFE8D6;
+      --ease-spring: cubic-bezier(0.34, 1.56, 0.64, 1);
+      --ease-out: cubic-bezier(0.16, 1, 0.3, 1);
+    }
+
+    @keyframes fadeInUp {
+      from { opacity: 0; transform: translateY(30px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+    @keyframes float {
+      0%, 100% { transform: translateY(0) rotate(0deg); }
+      50% { transform: translateY(-15px) rotate(3deg); }
+    }
+    @keyframes pulseGlow {
+      0%, 100% { opacity: 0.4; transform: scale(1); }
+      50% { opacity: 0.8; transform: scale(1.05); }
+    }
+
+    .hero-enter-1 { animation: fadeInUp 0.7s var(--ease-out) 0.2s both; }
+    .hero-enter-2 { animation: fadeInUp 0.8s var(--ease-out) 0.4s both; }
+    .hero-enter-3 { animation: fadeInUp 0.7s var(--ease-out) 0.6s both; }
+
+    .nav-glass {
+      backdrop-filter: blur(16px);
+      -webkit-backdrop-filter: blur(16px);
+      background: rgba(255, 249, 240, 0.9);
+      border-bottom: 1px solid rgba(0, 0, 0, 0.05);
+    }
+    .nav-link { position: relative; }
+    .nav-link::after {
+      content: '';
+      position: absolute;
+      bottom: -2px; left: 0;
+      width: 0; height: 2px;
+      background: var(--sb-red);
+      transition: width 0.3s var(--ease-out);
+    }
+    .nav-link:hover::after { width: 100%; }
+
+    .btn-primary { transition: transform 0.3s var(--ease-spring), opacity 0.3s ease; }
+    .btn-primary:hover { transform: translateY(-2px); }
+    .btn-primary:active { transform: translateY(0) scale(0.97); }
+    .btn-primary:focus-visible { outline: 3px solid var(--sb-yellow); outline-offset: 2px; }
+
+    .btn-secondary { transition: transform 0.3s var(--ease-spring), opacity 0.3s ease; }
+    .btn-secondary:hover { transform: translateY(-2px); }
+    .btn-secondary:active { transform: translateY(0) scale(0.97); }
+    .btn-secondary:focus-visible { outline: 3px solid var(--sb-blue); outline-offset: 2px; }
+
+    .reveal {
+      opacity: 0;
+      transform: translateY(40px);
+      transition: opacity 0.8s var(--ease-out), transform 0.8s var(--ease-out);
+    }
+    .reveal.active { opacity: 1; transform: translateY(0); }
+    .reveal-delay-1 { transition-delay: 0.1s; }
+    .reveal-delay-2 { transition-delay: 0.2s; }
+    .reveal-delay-3 { transition-delay: 0.3s; }
+
+    .mobile-menu { transform: translateX(100%); transition: transform 0.4s var(--ease-out); }
+    .mobile-menu.open { transform: translateX(0); }
+    .mobile-backdrop { opacity: 0; pointer-events: none; transition: opacity 0.3s ease; }
+    .mobile-backdrop.open { opacity: 1; pointer-events: auto; }
+
+    .wave-divider { line-height: 0; margin-top: -1px; }
+    .wave-divider svg { display: block; width: 100%; height: 80px; }
+    @media (max-width: 768px) { .wave-divider svg { height: 50px; } }
+
+    /* Form inputs */
+    .form-input {
+      transition: border-color 0.3s ease, box-shadow 0.3s ease;
+    }
+    .form-input:focus {
+      border-color: var(--sb-blue);
+      box-shadow: 0 0 0 3px rgba(45, 95, 232, 0.1);
+      outline: none;
+    }
+
+    /* Contact info card hover */
+    .contact-info-card {
+      transition: transform 0.4s var(--ease-spring);
+    }
+    .contact-info-card:hover {
+      transform: translateY(-3px);
+    }
+  </style>
+</head>
+<body>
+
+  <svg class="hidden" aria-hidden="true">
+    <filter id="grain">
+      <feTurbulence type="fractalNoise" baseFrequency="0.65" numOctaves="3" stitchTiles="stitch"/>
+      <feColorMatrix type="saturate" values="0"/>
+    </filter>
+  </svg>
+  <div class="fixed inset-0 pointer-events-none z-[9999] opacity-[0.025]" style="filter: url(#grain); width: 100%; height: 100%;"></div>
+
+  <!-- NAV -->
+  <header class="nav-glass fixed top-0 left-0 right-0 z-50">
+    <nav class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex items-center justify-between h-16 md:h-20">
+      <a href="index.html" class="flex items-center gap-2 shrink-0">
+        <img src="images/logo-transparent-sm.png" alt="StarBubs" class="h-10 md:h-12 w-auto">
+      </a>
+      <div class="hidden lg:flex items-center gap-8 font-body font-semibold text-sm text-sb-dark">
+        <a href="index.html" class="nav-link">Home</a>
+        <a href="classes.html" class="nav-link">Classes</a>
+        <a href="locations.html" class="nav-link">Locations</a>
+        <a href="#" class="nav-link">Book</a>
+        <a href="index.html#melody" class="nav-link">About</a>
+        <a href="faq.html" class="nav-link">FAQs</a>
+        <a href="blog.html" class="nav-link">Blog</a>
+        <a href="contact.html" class="nav-link" style="color: var(--sb-red)">Contact</a>
+      </div>
+      <a href="#" class="hidden lg:inline-flex btn-primary items-center gap-2 bg-sb-red text-white font-display font-semibold text-sm px-5 py-2.5 rounded-full shadow-[0_4px_12px_rgba(232,69,69,0.3)]">
+        Book Now
+      </a>
+      <button id="menuBtn" class="lg:hidden flex flex-col gap-1.5 p-2 z-50" aria-label="Toggle menu">
+        <span class="block w-6 h-0.5 bg-sb-dark rounded-full"></span>
+        <span class="block w-6 h-0.5 bg-sb-dark rounded-full"></span>
+        <span class="block w-6 h-0.5 bg-sb-dark rounded-full"></span>
+      </button>
+    </nav>
+  </header>
+
+  <div id="mobileBackdrop" class="mobile-backdrop fixed inset-0 bg-black/40 z-40 lg:hidden"></div>
+  <div id="mobileMenu" class="mobile-menu fixed top-0 right-0 bottom-0 w-72 bg-sb-cream z-40 lg:hidden shadow-[-8px_0_32px_rgba(0,0,0,0.1)]">
+    <div class="pt-24 px-8 flex flex-col gap-1">
+      <a href="index.html" class="mobile-link font-display text-lg font-semibold text-sb-dark py-3 border-b border-sb-dark/5">Home</a>
+      <a href="classes.html" class="mobile-link font-display text-lg font-semibold text-sb-dark py-3 border-b border-sb-dark/5">Classes</a>
+      <a href="locations.html" class="mobile-link font-display text-lg font-semibold text-sb-dark py-3 border-b border-sb-dark/5">Locations</a>
+      <a href="#" class="mobile-link font-display text-lg font-semibold text-sb-dark py-3 border-b border-sb-dark/5">Book</a>
+      <a href="index.html#melody" class="mobile-link font-display text-lg font-semibold text-sb-dark py-3 border-b border-sb-dark/5">About</a>
+      <a href="faq.html" class="mobile-link font-display text-lg font-semibold text-sb-dark py-3 border-b border-sb-dark/5">FAQs</a>
+      <a href="blog.html" class="mobile-link font-display text-lg font-semibold text-sb-dark py-3 border-b border-sb-dark/5">Blog</a>
+      <a href="contact.html" class="mobile-link font-display text-lg font-semibold text-sb-red py-3 border-b border-sb-dark/5">Contact</a>
+      <a href="#" class="btn-primary mt-6 bg-sb-red text-white font-display font-semibold text-center py-3 rounded-full shadow-[0_4px_12px_rgba(232,69,69,0.3)]">Book Now</a>
+    </div>
+  </div>
+
+  <main>
+
+    <!-- HERO -->
+    <section class="relative pt-28 md:pt-36 pb-16 md:pb-20 px-4 overflow-hidden" style="background: radial-gradient(ellipse at 25% 30%, rgba(45,95,232,0.08) 0%, transparent 50%), radial-gradient(ellipse at 75% 70%, rgba(61,190,92,0.06) 0%, transparent 50%), radial-gradient(ellipse at 50% 50%, rgba(245,197,24,0.05) 0%, transparent 60%), var(--sb-cream);">
+      <div class="absolute top-20 right-[12%] w-20 h-20 rounded-full bg-sb-blue/10" aria-hidden="true" style="animation: float 5s ease-in-out infinite"></div>
+      <div class="absolute bottom-12 left-[8%] w-14 h-14 rounded-full bg-sb-green/8" aria-hidden="true" style="animation: float 6s ease-in-out 1s infinite"></div>
+      <div class="absolute top-1/3 left-[20%] w-3 h-3 bg-sb-yellow rounded-full" aria-hidden="true" style="animation: pulseGlow 3s ease infinite"></div>
+      <div class="absolute top-1/2 right-[25%] w-2 h-2 bg-sb-red rounded-full" aria-hidden="true" style="animation: pulseGlow 4s ease 1s infinite"></div>
+
+      <div class="max-w-3xl mx-auto text-center relative z-10">
+        <div class="hero-enter-1">
+          <span class="inline-flex items-center gap-2 bg-sb-blue/10 border border-sb-blue/20 text-sb-dark px-4 py-1.5 rounded-full text-sm font-bold font-body mb-6">
+            <svg class="w-4 h-4 text-sb-blue" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><path d="M21 15a2 2 0 01-2 2H7l-4 4V5a2 2 0 012-2h14a2 2 0 012 2z"/></svg>
+            We'd love to hear from you
+          </span>
+        </div>
+        <h1 class="hero-enter-2 font-display text-4xl md:text-5xl lg:text-6xl font-bold text-sb-dark">
+          Get in<br><span class="text-sb-blue">Touch</span>
+        </h1>
+        <p class="hero-enter-3 font-body text-base md:text-lg text-sb-dark/60 mt-5 max-w-2xl mx-auto font-medium">
+          Whether it's a question about classes, a booking query, or you just want to say hello — drop us a message and we'll get back to you as soon as we can.
+        </p>
+      </div>
+    </section>
+
+    <!-- Wave divider -->
+    <div class="wave-divider text-white">
+      <svg viewBox="0 0 1440 100" preserveAspectRatio="none" fill="currentColor">
+        <path d="M0,60 C360,100 720,0 1080,50 C1260,75 1380,40 1440,60 L1440,100 L0,100 Z"/>
+      </svg>
+    </div>
+
+    <!-- CONTACT SECTION -->
+    <section class="bg-white py-16 md:py-24 px-4">
+      <div class="max-w-6xl mx-auto">
+        <div class="grid grid-cols-1 lg:grid-cols-5 gap-12 lg:gap-16">
+
+          <!-- LEFT: Contact form (3 cols) -->
+          <div class="lg:col-span-3 reveal">
+            <form action="#" method="POST" class="bg-sb-cream rounded-3xl p-6 md:p-10 shadow-[0_8px_40px_rgba(45,95,232,0.06),0_2px_8px_rgba(0,0,0,0.03)]">
+              <h2 class="font-display text-xl md:text-2xl font-bold text-sb-dark mb-1">Send us a message</h2>
+              <p class="font-body text-sm text-sb-dark/50 font-medium mb-8">We usually reply within 24 hours.</p>
+
+              <div class="grid grid-cols-1 sm:grid-cols-2 gap-5">
+                <!-- Name -->
+                <div>
+                  <label for="name" class="block font-body text-sm font-bold text-sb-dark mb-1.5">Your name</label>
+                  <input type="text" id="name" name="name" placeholder="e.g. Sarah" required
+                    class="form-input w-full bg-white border-2 border-sb-dark/8 rounded-xl px-4 py-3 font-body text-sm text-sb-dark placeholder:text-sb-dark/30">
+                </div>
+
+                <!-- Email -->
+                <div>
+                  <label for="email" class="block font-body text-sm font-bold text-sb-dark mb-1.5">Email address</label>
+                  <input type="email" id="email" name="email" placeholder="sarah@example.com" required
+                    class="form-input w-full bg-white border-2 border-sb-dark/8 rounded-xl px-4 py-3 font-body text-sm text-sb-dark placeholder:text-sb-dark/30">
+                </div>
+              </div>
+
+              <!-- Subject -->
+              <div class="mt-5">
+                <label for="subject" class="block font-body text-sm font-bold text-sb-dark mb-1.5">What's this about?</label>
+                <select id="subject" name="subject"
+                  class="form-input w-full bg-white border-2 border-sb-dark/8 rounded-xl px-4 py-3 font-body text-sm text-sb-dark appearance-none"
+                  style="background-image: url('data:image/svg+xml;utf8,<svg xmlns=%22http://www.w3.org/2000/svg%22 width=%2216%22 height=%2216%22 viewBox=%220 0 24 24%22 fill=%22none%22 stroke=%22%231A1A2E%22 stroke-width=%222%22 stroke-linecap=%22round%22><polyline points=%226 9 12 15 18 9%22/></svg>'); background-repeat: no-repeat; background-position: right 16px center;">
+                  <option value="" disabled selected>Choose a topic</option>
+                  <option value="classes">Question about classes</option>
+                  <option value="booking">Booking enquiry</option>
+                  <option value="locations">Venue / location info</option>
+                  <option value="other">Something else</option>
+                </select>
+              </div>
+
+              <!-- Message -->
+              <div class="mt-5">
+                <label for="message" class="block font-body text-sm font-bold text-sb-dark mb-1.5">Your message</label>
+                <textarea id="message" name="message" rows="5" placeholder="Tell us what's on your mind..." required
+                  class="form-input w-full bg-white border-2 border-sb-dark/8 rounded-xl px-4 py-3 font-body text-sm text-sb-dark placeholder:text-sb-dark/30 resize-none"></textarea>
+              </div>
+
+              <!-- Submit -->
+              <button type="submit"
+                class="btn-primary mt-6 w-full sm:w-auto inline-flex items-center justify-center gap-2 bg-sb-blue text-white font-display font-bold text-sm px-8 py-3.5 rounded-full shadow-[0_4px_16px_rgba(45,95,232,0.3)]">
+                Send Message
+                <svg class="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><line x1="22" y1="2" x2="11" y2="13"/><polygon points="22 2 15 22 11 13 2 9 22 2"/></svg>
+              </button>
+            </form>
+          </div>
+
+          <!-- RIGHT: Contact info (2 cols) -->
+          <div class="lg:col-span-2 flex flex-col gap-5">
+
+            <!-- Email card -->
+            <a href="mailto:hello@starbubs.co.uk" class="reveal reveal-delay-1 contact-info-card block bg-sb-cream rounded-2xl p-5 md:p-6 shadow-[0_2px_16px_rgba(0,0,0,0.03)] border border-sb-dark/5">
+              <div class="flex items-start gap-4">
+                <div class="w-11 h-11 rounded-xl bg-sb-blue/10 flex items-center justify-center shrink-0">
+                  <svg class="w-5 h-5 text-sb-blue" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg>
+                </div>
+                <div>
+                  <p class="font-display font-bold text-sb-dark text-base">Email</p>
+                  <p class="font-body text-sm text-sb-blue font-semibold mt-0.5">hello@starbubs.co.uk</p>
+                  <p class="font-body text-xs text-sb-dark/40 mt-1 font-medium">We usually reply within 24 hours</p>
+                </div>
+              </div>
+            </a>
+
+            <!-- Social card -->
+            <div class="reveal reveal-delay-2 contact-info-card bg-sb-cream rounded-2xl p-5 md:p-6 shadow-[0_2px_16px_rgba(0,0,0,0.03)] border border-sb-dark/5">
+              <div class="flex items-start gap-4">
+                <div class="w-11 h-11 rounded-xl bg-sb-red/10 flex items-center justify-center shrink-0">
+                  <svg class="w-5 h-5 text-sb-red" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M18 2h-3a5 5 0 00-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 011-1h3z"/></svg>
+                </div>
+                <div>
+                  <p class="font-display font-bold text-sb-dark text-base">Social Media</p>
+                  <p class="font-body text-sm text-sb-dark/60 mt-0.5 font-medium">Follow us for updates and behind-the-scenes peeks</p>
+                  <div class="flex gap-2.5 mt-3">
+                    <a href="#" aria-label="Facebook" class="w-9 h-9 rounded-full bg-white flex items-center justify-center border border-sb-dark/5 hover:bg-sb-red/5" style="transition: background-color 0.2s ease">
+                      <svg class="w-4 h-4 text-sb-dark/50" viewBox="0 0 24 24" fill="currentColor"><path d="M24 12.073c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.99 4.388 10.954 10.125 11.854v-8.385H7.078v-3.47h3.047V9.43c0-3.007 1.792-4.669 4.533-4.669 1.312 0 2.686.235 2.686.235v2.953H15.83c-1.491 0-1.956.925-1.956 1.874v2.25h3.328l-.532 3.47h-2.796v8.385C19.612 23.027 24 18.062 24 12.073z"/></svg>
+                    </a>
+                    <a href="#" aria-label="Instagram" class="w-9 h-9 rounded-full bg-white flex items-center justify-center border border-sb-dark/5 hover:bg-sb-red/5" style="transition: background-color 0.2s ease">
+                      <svg class="w-4 h-4 text-sb-dark/50" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zM12 0C8.741 0 8.333.014 7.053.072 2.695.272.273 2.69.073 7.052.014 8.333 0 8.741 0 12c0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98C8.333 23.986 8.741 24 12 24c3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98C15.668.014 15.259 0 12 0zm0 5.838a6.162 6.162 0 100 12.324 6.162 6.162 0 000-12.324zM12 16a4 4 0 110-8 4 4 0 010 8zm6.406-11.845a1.44 1.44 0 100 2.881 1.44 1.44 0 000-2.881z"/></svg>
+                    </a>
+                    <a href="#" aria-label="TikTok" class="w-9 h-9 rounded-full bg-white flex items-center justify-center border border-sb-dark/5 hover:bg-sb-red/5" style="transition: background-color 0.2s ease">
+                      <svg class="w-4 h-4 text-sb-dark/50" viewBox="0 0 24 24" fill="currentColor"><path d="M19.59 6.69a4.83 4.83 0 01-3.77-4.25V2h-3.45v13.67a2.89 2.89 0 01-2.88 2.5 2.89 2.89 0 01-2.89-2.89 2.89 2.89 0 012.89-2.89c.28 0 .54.04.79.1v-3.5a6.37 6.37 0 00-.79-.05A6.34 6.34 0 003.15 15.2a6.34 6.34 0 0010.86 4.46V13a8.28 8.28 0 005.58 2.15v-3.44a4.85 4.85 0 01-3.77-1.25V6.69h3.77z"/></svg>
+                    </a>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <!-- Locations card -->
+            <a href="locations.html" class="reveal reveal-delay-3 contact-info-card block bg-sb-cream rounded-2xl p-5 md:p-6 shadow-[0_2px_16px_rgba(0,0,0,0.03)] border border-sb-dark/5">
+              <div class="flex items-start gap-4">
+                <div class="w-11 h-11 rounded-xl bg-sb-green/10 flex items-center justify-center shrink-0">
+                  <svg class="w-5 h-5 text-sb-green" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0118 0z"/><circle cx="12" cy="10" r="3"/></svg>
+                </div>
+                <div>
+                  <p class="font-display font-bold text-sb-dark text-base">Our Venues</p>
+                  <p class="font-body text-sm text-sb-dark/60 mt-0.5 font-medium">Bridgwater & Taunton</p>
+                  <span class="inline-flex items-center gap-1 mt-2 font-body text-xs font-bold text-sb-green">
+                    View locations & timetables
+                    <svg class="w-3.5 h-3.5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+                  </span>
+                </div>
+              </div>
+            </a>
+
+            <!-- FAQ card -->
+            <a href="faq.html" class="reveal reveal-delay-3 contact-info-card block bg-sb-cream rounded-2xl p-5 md:p-6 shadow-[0_2px_16px_rgba(0,0,0,0.03)] border border-sb-dark/5">
+              <div class="flex items-start gap-4">
+                <div class="w-11 h-11 rounded-xl bg-sb-yellow/15 flex items-center justify-center shrink-0">
+                  <svg class="w-5 h-5 text-sb-yellow" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="12" cy="12" r="10"/><path d="M9.09 9a3 3 0 015.83 1c0 2-3 3-3 3"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg>
+                </div>
+                <div>
+                  <p class="font-display font-bold text-sb-dark text-base">Check our FAQs</p>
+                  <p class="font-body text-sm text-sb-dark/60 mt-0.5 font-medium">Your question might already be answered</p>
+                  <span class="inline-flex items-center gap-1 mt-2 font-body text-xs font-bold text-sb-yellow">
+                    View FAQs
+                    <svg class="w-3.5 h-3.5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+                  </span>
+                </div>
+              </div>
+            </a>
+
+          </div>
+        </div>
+      </div>
+    </section>
+
+  </main>
+
+  <!-- FOOTER -->
+  <footer class="bg-sb-dark text-white/60 py-16 px-4">
+    <div class="max-w-6xl mx-auto">
+      <div class="grid grid-cols-2 md:grid-cols-4 gap-10 md:gap-8">
+        <div class="col-span-2 md:col-span-1">
+          <img src="images/logo-transparent-sm.png" alt="StarBubs" class="h-14 w-auto mb-4 opacity-80">
+          <p class="font-body text-sm leading-relaxed">Baby & toddler classes in Bridgwater and Taunton. Teacher-led. Structured. Fun.</p>
+        </div>
+        <div>
+          <h4 class="font-display font-semibold text-white text-sm uppercase tracking-wider mb-4">Quick Links</h4>
+          <ul class="flex flex-col gap-2 font-body text-sm">
+            <li><a href="index.html" class="hover:text-white" style="transition: color 0.2s ease">Home</a></li>
+            <li><a href="classes.html" class="hover:text-white" style="transition: color 0.2s ease">Classes</a></li>
+            <li><a href="locations.html" class="hover:text-white" style="transition: color 0.2s ease">Locations</a></li>
+            <li><a href="#" class="hover:text-white" style="transition: color 0.2s ease">Book</a></li>
+            <li><a href="index.html#melody" class="hover:text-white" style="transition: color 0.2s ease">About</a></li>
+          </ul>
+        </div>
+        <div>
+          <h4 class="font-display font-semibold text-white text-sm uppercase tracking-wider mb-4">Help</h4>
+          <ul class="flex flex-col gap-2 font-body text-sm">
+            <li><a href="faq.html" class="hover:text-white" style="transition: color 0.2s ease">FAQs</a></li>
+            <li><a href="contact.html" class="hover:text-white" style="transition: color 0.2s ease">Contact Us</a></li>
+            <li><a href="blog.html" class="hover:text-white" style="transition: color 0.2s ease">Blog</a></li>
+          </ul>
+        </div>
+        <div>
+          <h4 class="font-display font-semibold text-white text-sm uppercase tracking-wider mb-4">Follow Us</h4>
+          <div class="flex gap-3">
+            <a href="#" aria-label="Facebook" class="w-9 h-9 rounded-full bg-white/10 flex items-center justify-center hover:bg-white/20" style="transition: background-color 0.2s ease">
+              <svg class="w-4 h-4 text-white" viewBox="0 0 24 24" fill="currentColor"><path d="M24 12.073c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.99 4.388 10.954 10.125 11.854v-8.385H7.078v-3.47h3.047V9.43c0-3.007 1.792-4.669 4.533-4.669 1.312 0 2.686.235 2.686.235v2.953H15.83c-1.491 0-1.956.925-1.956 1.874v2.25h3.328l-.532 3.47h-2.796v8.385C19.612 23.027 24 18.062 24 12.073z"/></svg>
+            </a>
+            <a href="#" aria-label="Instagram" class="w-9 h-9 rounded-full bg-white/10 flex items-center justify-center hover:bg-white/20" style="transition: background-color 0.2s ease">
+              <svg class="w-4 h-4 text-white" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zM12 0C8.741 0 8.333.014 7.053.072 2.695.272.273 2.69.073 7.052.014 8.333 0 8.741 0 12c0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98C8.333 23.986 8.741 24 12 24c3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98C15.668.014 15.259 0 12 0zm0 5.838a6.162 6.162 0 100 12.324 6.162 6.162 0 000-12.324zM12 16a4 4 0 110-8 4 4 0 010 8zm6.406-11.845a1.44 1.44 0 100 2.881 1.44 1.44 0 000-2.881z"/></svg>
+            </a>
+            <a href="#" aria-label="TikTok" class="w-9 h-9 rounded-full bg-white/10 flex items-center justify-center hover:bg-white/20" style="transition: background-color 0.2s ease">
+              <svg class="w-4 h-4 text-white" viewBox="0 0 24 24" fill="currentColor"><path d="M19.59 6.69a4.83 4.83 0 01-3.77-4.25V2h-3.45v13.67a2.89 2.89 0 01-2.88 2.5 2.89 2.89 0 01-2.89-2.89 2.89 2.89 0 012.89-2.89c.28 0 .54.04.79.1v-3.5a6.37 6.37 0 00-.79-.05A6.34 6.34 0 003.15 15.2a6.34 6.34 0 0010.86 4.46V13a8.28 8.28 0 005.58 2.15v-3.44a4.85 4.85 0 01-3.77-1.25V6.69h3.77z"/></svg>
+            </a>
+          </div>
+        </div>
+      </div>
+      <div class="border-t border-white/10 mt-12 pt-8 flex flex-col md:flex-row justify-between items-center gap-4">
+        <p class="font-body text-xs text-white/40">&copy; 2025 StarBubs. All rights reserved.</p>
+        <div class="flex gap-6 font-body text-xs text-white/40">
+          <a href="#" class="hover:text-white/60" style="transition: color 0.2s ease">Privacy Policy</a>
+          <a href="#" class="hover:text-white/60" style="transition: color 0.2s ease">Terms of Service</a>
+        </div>
+      </div>
+    </div>
+  </footer>
+
+  <script>
+    const revealObserver = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          entry.target.classList.add('active');
+          revealObserver.unobserve(entry.target);
+        }
+      });
+    }, { threshold: 0.15, rootMargin: '0px 0px -40px 0px' });
+    document.querySelectorAll('.reveal').forEach(el => revealObserver.observe(el));
+
+    const menuBtn = document.getElementById('menuBtn');
+    const mobileMenu = document.getElementById('mobileMenu');
+    const mobileBackdrop = document.getElementById('mobileBackdrop');
+    function toggleMenu() {
+      const isOpen = mobileMenu.classList.contains('open');
+      mobileMenu.classList.toggle('open');
+      mobileBackdrop.classList.toggle('open');
+      menuBtn.classList.toggle('open');
+      document.body.style.overflow = isOpen ? '' : 'hidden';
+    }
+    menuBtn.addEventListener('click', toggleMenu);
+    mobileBackdrop.addEventListener('click', toggleMenu);
+    document.querySelectorAll('.mobile-link').forEach(link => {
+      link.addEventListener('click', () => {
+        if (mobileMenu.classList.contains('open')) toggleMenu();
+      });
+    });
+  </script>
+
+</body>
+</html>
