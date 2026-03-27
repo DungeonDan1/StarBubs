@@ -1,0 +1,963 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Our Classes | StarBubs — Baby & Toddler Classes</title>
+  <meta name="description" content="Three age-based baby and toddler classes: StarGazers (0-6m), StarCruisers (6-12m), and StarChasers (1-3y). Teacher-led sessions in Bridgwater & Taunton.">
+  <link rel="icon" type="image/png" href="images/logo.png">
+
+  <!-- Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@400;500;600;700&family=Quicksand:wght@400;500;600;700&display=swap" rel="stylesheet">
+
+  <!-- Tailwind -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          colors: {
+            'sb-red': '#E84545',
+            'sb-blue': '#2D5FE8',
+            'sb-yellow': '#F5C518',
+            'sb-green': '#3DBE5C',
+            'sb-cream': '#FFF9F0',
+            'sb-dark': '#1A1A2E',
+            'sb-peach': '#FFE8D6',
+          },
+          fontFamily: {
+            display: ['Fredoka', 'sans-serif'],
+            body: ['Quicksand', 'sans-serif'],
+          },
+        },
+      },
+    }
+  </script>
+
+  <style>
+    /* ======================== BASE ======================== */
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    html { scroll-behavior: smooth; }
+    body {
+      font-family: 'Quicksand', sans-serif;
+      color: #1A1A2E;
+      line-height: 1.7;
+      overflow-x: hidden;
+      background: #FFF9F0;
+    }
+
+    h1, h2, h3, h4 {
+      font-family: 'Fredoka', sans-serif;
+      letter-spacing: -0.03em;
+      line-height: 1.2;
+    }
+
+    :root {
+      --sb-red: #E84545;
+      --sb-blue: #2D5FE8;
+      --sb-yellow: #F5C518;
+      --sb-green: #3DBE5C;
+      --sb-cream: #FFF9F0;
+      --sb-dark: #1A1A2E;
+      --sb-peach: #FFE8D6;
+      --ease-spring: cubic-bezier(0.34, 1.56, 0.64, 1);
+      --ease-out: cubic-bezier(0.16, 1, 0.3, 1);
+    }
+
+    /* ======================== ANIMATIONS ======================== */
+    @keyframes fadeInUp {
+      from { opacity: 0; transform: translateY(30px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    @keyframes fadeInScale {
+      from { opacity: 0; transform: scale(0.9); }
+      to { opacity: 1; transform: scale(1); }
+    }
+
+    @keyframes float {
+      0%, 100% { transform: translateY(0) rotate(0deg); }
+      50% { transform: translateY(-15px) rotate(3deg); }
+    }
+
+    @keyframes pulseGlow {
+      0%, 100% { opacity: 0.4; transform: scale(1); }
+      50% { opacity: 0.8; transform: scale(1.05); }
+    }
+
+    @keyframes shimmer {
+      0% { background-position: -200% 0; }
+      100% { background-position: 200% 0; }
+    }
+
+    /* Hero staggered entrance */
+    .hero-enter-1 { animation: fadeInUp 0.7s var(--ease-out) 0.2s both; }
+    .hero-enter-2 { animation: fadeInUp 0.8s var(--ease-out) 0.4s both; }
+    .hero-enter-3 { animation: fadeInUp 0.7s var(--ease-out) 0.6s both; }
+
+    /* ======================== COMPONENTS ======================== */
+
+    /* Nav glass effect */
+    .nav-glass {
+      backdrop-filter: blur(16px);
+      -webkit-backdrop-filter: blur(16px);
+      background: rgba(255, 249, 240, 0.9);
+      border-bottom: 1px solid rgba(0, 0, 0, 0.05);
+    }
+
+    .nav-link { position: relative; }
+    .nav-link::after {
+      content: '';
+      position: absolute;
+      bottom: -2px;
+      left: 0;
+      width: 0;
+      height: 2px;
+      background: var(--sb-red);
+      transition: width 0.3s var(--ease-out);
+    }
+    .nav-link:hover::after { width: 100%; }
+
+    /* Buttons */
+    .btn-primary {
+      transition: transform 0.3s var(--ease-spring), opacity 0.3s ease;
+    }
+    .btn-primary:hover { transform: translateY(-2px); }
+    .btn-primary:active { transform: translateY(0) scale(0.97); }
+    .btn-primary:focus-visible { outline: 3px solid var(--sb-yellow); outline-offset: 2px; }
+
+    .btn-secondary {
+      transition: transform 0.3s var(--ease-spring), opacity 0.3s ease;
+    }
+    .btn-secondary:hover { transform: translateY(-2px); }
+    .btn-secondary:active { transform: translateY(0) scale(0.97); }
+    .btn-secondary:focus-visible { outline: 3px solid var(--sb-blue); outline-offset: 2px; }
+
+    /* Scroll reveal system */
+    .reveal {
+      opacity: 0;
+      transform: translateY(40px);
+      transition: opacity 0.8s var(--ease-out), transform 0.8s var(--ease-out);
+    }
+    .reveal.active {
+      opacity: 1;
+      transform: translateY(0);
+    }
+    .reveal-delay-1 { transition-delay: 0.1s; }
+    .reveal-delay-2 { transition-delay: 0.2s; }
+    .reveal-delay-3 { transition-delay: 0.3s; }
+    .reveal-delay-4 { transition-delay: 0.4s; }
+
+    /* Image overlay treatment */
+    .img-treatment { position: relative; overflow: hidden; }
+    .img-treatment::after {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(to top, rgba(0,0,0,0.45) 0%, transparent 60%);
+    }
+
+    /* Class showcase cards with color-tinted hover */
+    .class-showcase {
+      transition: transform 0.5s var(--ease-spring);
+    }
+    .class-showcase:hover {
+      transform: translateY(-4px);
+    }
+
+    /* Photo grid with staggered reveal */
+    .photo-mosaic img {
+      transition: transform 0.5s var(--ease-out);
+    }
+    .photo-mosaic img:hover {
+      transform: scale(1.03);
+    }
+
+    /* Theme card hover */
+    .theme-card {
+      transition: transform 0.4s var(--ease-spring);
+    }
+    .theme-card:hover {
+      transform: translateY(-6px) rotate(-1deg);
+    }
+
+    /* FAQ accordion */
+    .faq-answer {
+      display: grid;
+      grid-template-rows: 0fr;
+      transition: grid-template-rows 0.4s var(--ease-out);
+    }
+    .faq-item.open .faq-answer {
+      grid-template-rows: 1fr;
+    }
+    .faq-answer > div {
+      overflow: hidden;
+    }
+    .faq-icon {
+      transition: transform 0.3s var(--ease-spring);
+    }
+    .faq-item.open .faq-icon {
+      transform: rotate(45deg);
+    }
+
+    /* Wave dividers */
+    .wave-divider {
+      line-height: 0;
+      margin-top: -1px;
+    }
+    .wave-divider svg {
+      width: 100%;
+      height: 50px;
+      display: block;
+    }
+    @media (min-width: 768px) {
+      .wave-divider svg { height: 70px; }
+    }
+
+    /* Mobile menu */
+    .mobile-menu {
+      transform: translateX(100%);
+      transition: transform 0.4s var(--ease-out);
+    }
+    .mobile-menu.open {
+      transform: translateX(0);
+    }
+    .mobile-backdrop {
+      opacity: 0;
+      pointer-events: none;
+      transition: opacity 0.3s ease;
+    }
+    .mobile-backdrop.open {
+      opacity: 1;
+      pointer-events: auto;
+    }
+
+    /* Hamburger animation */
+    #menuBtn span {
+      transition: transform 0.3s var(--ease-spring), opacity 0.3s ease;
+    }
+    #menuBtn.open span:first-child {
+      transform: translateY(8px) rotate(45deg);
+    }
+    #menuBtn.open span:nth-child(2) {
+      opacity: 0;
+    }
+    #menuBtn.open span:last-child {
+      transform: translateY(-8px) rotate(-45deg);
+    }
+
+    /* Activity list bullets */
+    .activity-list li {
+      position: relative;
+      padding-left: 28px;
+    }
+    .activity-list li::before {
+      content: '';
+      position: absolute;
+      left: 0;
+      top: 10px;
+      width: 12px;
+      height: 12px;
+      border-radius: 50%;
+    }
+
+    /* Step timeline connector */
+    .step-connector {
+      position: absolute;
+      left: 50%;
+      top: 0;
+      bottom: 0;
+      width: 3px;
+      transform: translateX(-50%);
+    }
+  </style>
+</head>
+<body>
+
+  <!-- SVG noise filter for grain texture -->
+  <svg class="hidden" aria-hidden="true">
+    <filter id="grain">
+      <feTurbulence type="fractalNoise" baseFrequency="0.65" numOctaves="3" stitchTiles="stitch"/>
+      <feColorMatrix type="saturate" values="0"/>
+    </filter>
+  </svg>
+
+  <!-- Grain overlay -->
+  <div class="fixed inset-0 pointer-events-none z-[9999] opacity-[0.025]" style="filter: url(#grain); width: 100%; height: 100%;"></div>
+
+  <!-- NAV -->
+  <header class="nav-glass fixed top-0 left-0 right-0 z-50">
+    <nav class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex items-center justify-between h-16 md:h-20">
+      <a href="index.html" class="flex items-center gap-2 shrink-0">
+        <img src="images/logo-transparent-sm.png" alt="StarBubs" class="h-10 md:h-12 w-auto">
+      </a>
+
+      <div class="hidden lg:flex items-center gap-8 font-body font-semibold text-sm text-sb-dark">
+        <a href="index.html" class="nav-link">Home</a>
+        <a href="classes.html" class="nav-link" style="color: var(--sb-red)">Classes</a>
+        <a href="locations.html" class="nav-link">Locations</a>
+        <a href="#" class="nav-link">Book</a>
+        <a href="index.html#melody" class="nav-link">About</a>
+        <a href="faq.html" class="nav-link">FAQs</a>
+        <a href="blog.html" class="nav-link">Blog</a>
+        <a href="contact.html" class="nav-link">Contact</a>
+      </div>
+
+      <a href="#" class="hidden lg:inline-flex btn-primary items-center gap-2 bg-sb-red text-white font-display font-semibold text-sm px-5 py-2.5 rounded-full shadow-[0_4px_12px_rgba(232,69,69,0.3)]">
+        Book Now
+      </a>
+
+      <button id="menuBtn" class="lg:hidden flex flex-col gap-1.5 p-2 z-50" aria-label="Toggle menu">
+        <span class="block w-6 h-0.5 bg-sb-dark rounded-full"></span>
+        <span class="block w-6 h-0.5 bg-sb-dark rounded-full"></span>
+        <span class="block w-6 h-0.5 bg-sb-dark rounded-full"></span>
+      </button>
+    </nav>
+  </header>
+
+  <!-- Mobile backdrop -->
+  <div id="mobileBackdrop" class="mobile-backdrop fixed inset-0 bg-black/40 z-40 lg:hidden"></div>
+
+  <!-- Mobile menu -->
+  <div id="mobileMenu" class="mobile-menu fixed top-0 right-0 bottom-0 w-72 bg-sb-cream z-40 lg:hidden shadow-[-8px_0_32px_rgba(0,0,0,0.1)]">
+    <div class="pt-24 px-8 flex flex-col gap-1">
+      <a href="index.html" class="mobile-link font-display text-lg font-semibold text-sb-dark py-3 border-b border-sb-dark/5">Home</a>
+      <a href="classes.html" class="mobile-link font-display text-lg font-semibold text-sb-red py-3 border-b border-sb-dark/5">Classes</a>
+      <a href="locations.html" class="mobile-link font-display text-lg font-semibold text-sb-dark py-3 border-b border-sb-dark/5">Locations</a>
+      <a href="#" class="mobile-link font-display text-lg font-semibold text-sb-dark py-3 border-b border-sb-dark/5">Book</a>
+      <a href="index.html#melody" class="mobile-link font-display text-lg font-semibold text-sb-dark py-3 border-b border-sb-dark/5">About</a>
+      <a href="faq.html" class="mobile-link font-display text-lg font-semibold text-sb-dark py-3 border-b border-sb-dark/5">FAQs</a>
+      <a href="blog.html" class="mobile-link font-display text-lg font-semibold text-sb-dark py-3 border-b border-sb-dark/5">Blog</a>
+      <a href="contact.html" class="mobile-link font-display text-lg font-semibold text-sb-dark py-3 border-b border-sb-dark/5">Contact</a>
+      <a href="#" class="btn-primary mt-6 bg-sb-red text-white font-display font-semibold text-center py-3 rounded-full shadow-[0_4px_12px_rgba(232,69,69,0.3)]">Book Now</a>
+    </div>
+  </div>
+
+  <main>
+
+    <!-- HERO -->
+    <section class="relative pt-28 md:pt-36 pb-16 md:pb-24 px-4 overflow-hidden" style="background: radial-gradient(ellipse at 30% 20%, rgba(45,95,232,0.08) 0%, transparent 50%), radial-gradient(ellipse at 70% 80%, rgba(232,69,69,0.06) 0%, transparent 50%), radial-gradient(ellipse at 50% 50%, rgba(245,197,24,0.06) 0%, transparent 60%), var(--sb-cream);">
+      <!-- Decorative elements -->
+      <div class="absolute top-20 right-[10%] w-24 h-24 rounded-full bg-sb-yellow/10" aria-hidden="true" style="animation: float 5s ease-in-out infinite"></div>
+      <div class="absolute bottom-10 left-[5%] w-16 h-16 rounded-full bg-sb-blue/8" aria-hidden="true" style="animation: float 6s ease-in-out 1s infinite"></div>
+      <div class="absolute top-1/3 left-[15%] w-3 h-3 bg-sb-red rounded-full" aria-hidden="true" style="animation: pulseGlow 3s ease infinite"></div>
+      <div class="absolute top-1/2 right-[20%] w-2 h-2 bg-sb-green rounded-full" aria-hidden="true" style="animation: pulseGlow 4s ease 1s infinite"></div>
+
+      <div class="max-w-4xl mx-auto text-center relative z-10">
+        <div class="hero-enter-1">
+          <span class="inline-flex items-center gap-2 bg-sb-yellow/15 border border-sb-yellow/30 text-sb-dark px-4 py-1.5 rounded-full text-sm font-bold font-body mb-6">
+            <svg class="w-4 h-4 text-sb-yellow" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
+            Three classes, three stages
+          </span>
+        </div>
+        <h1 class="hero-enter-2 font-display text-4xl sm:text-5xl md:text-6xl font-bold text-sb-dark leading-tight">
+          Find the right class for your <span class="text-sb-red">little one</span>
+        </h1>
+        <p class="hero-enter-3 mt-5 text-base md:text-lg text-sb-dark/60 font-body font-medium max-w-2xl mx-auto">
+          Every child develops at their own pace. Our three classes are designed around age and stage, so your baby gets exactly the right level of stimulation, interaction, and fun.
+        </p>
+      </div>
+    </section>
+
+    <!-- ============================================ -->
+    <!-- STARGAZERS                                   -->
+    <!-- ============================================ -->
+    <section id="stargazers" class="bg-white py-20 md:py-28 px-4 relative overflow-hidden">
+      <!-- Decorative blob -->
+      <div class="absolute -left-24 top-20 w-64 h-64 rounded-full bg-sb-blue/5" aria-hidden="true"></div>
+
+      <div class="max-w-6xl mx-auto">
+        <div class="grid md:grid-cols-2 gap-12 md:gap-16 items-center">
+          <!-- Photos -->
+          <div class="reveal relative">
+            <div class="photo-mosaic grid grid-cols-5 grid-rows-4 gap-3 h-[360px] md:h-[440px]">
+              <div class="col-span-3 row-span-4 rounded-2xl overflow-hidden shadow-[0_8px_32px_rgba(45,95,232,0.12),0_2px_8px_rgba(0,0,0,0.05)]">
+                <img src="images/baby-sensory-lights.jpg" alt="Baby surrounded by colourful sensory lights at a StarGazers session" class="w-full h-full object-cover">
+              </div>
+              <div class="col-span-2 row-span-2 rounded-2xl overflow-hidden shadow-[0_4px_16px_rgba(45,95,232,0.08)]">
+                <img src="images/baby-teddy-bear.jpg" alt="Baby meeting a giant teddy bear" class="w-full h-full object-cover">
+              </div>
+              <div class="col-span-2 row-span-2 rounded-xl bg-sb-blue/8 flex flex-col items-center justify-center p-4 text-center">
+                <span class="font-display font-bold text-sb-blue text-3xl md:text-4xl">0-6</span>
+                <span class="font-body font-semibold text-sb-blue/60 text-xs mt-1">months</span>
+              </div>
+            </div>
+          </div>
+
+          <!-- Content -->
+          <div class="reveal reveal-delay-2">
+            <div class="inline-flex items-center gap-2 bg-sb-blue/10 text-sb-blue px-3 py-1 rounded-full text-xs font-bold font-body uppercase tracking-wider mb-4">
+              <span class="w-2 h-2 rounded-full bg-sb-blue"></span>
+              Newborns & Pre-Crawlers
+            </div>
+            <h2 class="font-display text-3xl md:text-4xl lg:text-5xl font-bold text-sb-dark">StarGazers</h2>
+            <p class="font-body text-base text-sb-dark/70 mt-4 leading-relaxed">
+              Designed for the tiniest members. Soft lights, gentle sounds, and calm sensory experiences. Your baby explores at their own pace while you bond and connect with other parents.
+            </p>
+
+            <ul class="activity-list mt-6 flex flex-col gap-3 font-body text-sm text-sb-dark/70">
+              <li style="--bullet-color: var(--sb-blue)">
+                <span class="absolute left-0 top-[10px] w-3 h-3 rounded-full bg-sb-blue/20 border-2 border-sb-blue"></span>
+                <strong class="text-sb-dark">Sensory exploration</strong> — light-up toys, textured fabrics, soft mirrors
+              </li>
+              <li style="--bullet-color: var(--sb-blue)">
+                <span class="absolute left-0 top-[10px] w-3 h-3 rounded-full bg-sb-blue/20 border-2 border-sb-blue"></span>
+                <strong class="text-sb-dark">Gentle music & song</strong> — lullabies, nursery rhymes, calming melodies
+              </li>
+              <li style="--bullet-color: var(--sb-blue)">
+                <span class="absolute left-0 top-[10px] w-3 h-3 rounded-full bg-sb-blue/20 border-2 border-sb-blue"></span>
+                <strong class="text-sb-dark">Tummy time stations</strong> — supported play for physical development
+              </li>
+              <li style="--bullet-color: var(--sb-blue)">
+                <span class="absolute left-0 top-[10px] w-3 h-3 rounded-full bg-sb-blue/20 border-2 border-sb-blue"></span>
+                <strong class="text-sb-dark">Parent bonding time</strong> — relaxed environment, meet other new parents
+              </li>
+            </ul>
+
+            <div class="flex flex-col sm:flex-row gap-3 mt-8">
+              <a href="#" class="btn-primary bg-sb-blue text-white font-display font-semibold text-sm px-6 py-3 rounded-full text-center shadow-[0_4px_16px_rgba(45,95,232,0.3)]">
+                Book StarGazers
+              </a>
+              <a href="#" class="btn-secondary bg-white text-sb-dark font-display font-semibold text-sm px-6 py-3 rounded-full text-center shadow-[0_4px_16px_rgba(0,0,0,0.06)] border border-sb-dark/10">
+                View Timetable
+              </a>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Wave divider -->
+    <div class="wave-divider text-sb-cream">
+      <svg viewBox="0 0 1440 60" preserveAspectRatio="none"><path d="M0,30 C360,55 720,5 1080,30 C1260,42 1380,18 1440,30 L1440,60 L0,60Z" fill="currentColor"/></svg>
+    </div>
+
+    <!-- ============================================ -->
+    <!-- STARCRUISERS                                 -->
+    <!-- ============================================ -->
+    <section id="starcruisers" class="bg-sb-cream py-20 md:py-28 px-4 relative overflow-hidden">
+      <div class="absolute -right-24 bottom-20 w-64 h-64 rounded-full bg-sb-green/5" aria-hidden="true"></div>
+
+      <div class="max-w-6xl mx-auto">
+        <div class="grid md:grid-cols-2 gap-12 md:gap-16 items-center">
+          <!-- Content (left on desktop for alternating layout) -->
+          <div class="reveal reveal-delay-1 order-2 md:order-1">
+            <div class="inline-flex items-center gap-2 bg-sb-green/10 text-sb-green px-3 py-1 rounded-full text-xs font-bold font-body uppercase tracking-wider mb-4">
+              <span class="w-2 h-2 rounded-full bg-sb-green"></span>
+              Crawlers & Explorers
+            </div>
+            <h2 class="font-display text-3xl md:text-4xl lg:text-5xl font-bold text-sb-dark">StarCruisers</h2>
+            <p class="font-body text-base text-sb-dark/70 mt-4 leading-relaxed">
+              Your baby is on the move and ready to explore. These sessions match their growing curiosity with tunnels, textures, and interactive play — all in a safe, padded environment.
+            </p>
+
+            <ul class="activity-list mt-6 flex flex-col gap-3 font-body text-sm text-sb-dark/70">
+              <li>
+                <span class="absolute left-0 top-[10px] w-3 h-3 rounded-full bg-sb-green/20 border-2 border-sb-green"></span>
+                <strong class="text-sb-dark">Crawling adventures</strong> — tunnels, ramps, and soft obstacles
+              </li>
+              <li>
+                <span class="absolute left-0 top-[10px] w-3 h-3 rounded-full bg-sb-green/20 border-2 border-sb-green"></span>
+                <strong class="text-sb-dark">Tactile sensory play</strong> — water beads, sand trays, textured mats
+              </li>
+              <li>
+                <span class="absolute left-0 top-[10px] w-3 h-3 rounded-full bg-sb-green/20 border-2 border-sb-green"></span>
+                <strong class="text-sb-dark">Music & instruments</strong> — shakers, drums, and action songs
+              </li>
+              <li>
+                <span class="absolute left-0 top-[10px] w-3 h-3 rounded-full bg-sb-green/20 border-2 border-sb-green"></span>
+                <strong class="text-sb-dark">Social interaction</strong> — parallel play with other babies their age
+              </li>
+            </ul>
+
+            <div class="flex flex-col sm:flex-row gap-3 mt-8">
+              <a href="#" class="btn-primary bg-sb-green text-white font-display font-semibold text-sm px-6 py-3 rounded-full text-center shadow-[0_4px_16px_rgba(61,190,92,0.3)]">
+                Book StarCruisers
+              </a>
+              <a href="#" class="btn-secondary bg-white text-sb-dark font-display font-semibold text-sm px-6 py-3 rounded-full text-center shadow-[0_4px_16px_rgba(0,0,0,0.06)] border border-sb-dark/10">
+                View Timetable
+              </a>
+            </div>
+          </div>
+
+          <!-- Photos -->
+          <div class="reveal order-1 md:order-2 relative">
+            <div class="photo-mosaic grid grid-cols-5 grid-rows-4 gap-3 h-[360px] md:h-[440px]">
+              <div class="col-span-2 row-span-2 rounded-2xl overflow-hidden shadow-[0_4px_16px_rgba(61,190,92,0.08)]">
+                <img src="images/toddler-bubbles.jpg" alt="Baby laughing with bubbles at a StarCruisers session" class="w-full h-full object-cover">
+              </div>
+              <div class="col-span-3 row-span-4 rounded-2xl overflow-hidden shadow-[0_8px_32px_rgba(61,190,92,0.12),0_2px_8px_rgba(0,0,0,0.05)]">
+                <img src="images/baby-jungle-tunnel.jpg" alt="Baby crawling through a green tunnel at StarCruisers" class="w-full h-full object-cover">
+              </div>
+              <div class="col-span-2 row-span-2 rounded-xl bg-sb-green/8 flex flex-col items-center justify-center p-4 text-center">
+                <span class="font-display font-bold text-sb-green text-3xl md:text-4xl">6-12</span>
+                <span class="font-body font-semibold text-sb-green/60 text-xs mt-1">months</span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Wave divider -->
+    <div class="wave-divider text-white">
+      <svg viewBox="0 0 1440 60" preserveAspectRatio="none"><path d="M0,20 C480,55 960,5 1440,35 L1440,60 L0,60Z" fill="currentColor"/></svg>
+    </div>
+
+    <!-- ============================================ -->
+    <!-- STARCHASERS                                  -->
+    <!-- ============================================ -->
+    <section id="starchasers" class="bg-white py-20 md:py-28 px-4 relative overflow-hidden">
+      <div class="absolute -left-16 bottom-10 w-48 h-48 rounded-full bg-sb-red/5" aria-hidden="true"></div>
+
+      <div class="max-w-6xl mx-auto">
+        <div class="grid md:grid-cols-2 gap-12 md:gap-16 items-center">
+          <!-- Photos -->
+          <div class="reveal relative">
+            <div class="photo-mosaic grid grid-cols-6 grid-rows-4 gap-3 h-[360px] md:h-[440px]">
+              <div class="col-span-4 row-span-3 rounded-2xl overflow-hidden shadow-[0_8px_32px_rgba(232,69,69,0.12),0_2px_8px_rgba(0,0,0,0.05)]">
+                <img src="images/kids-crocodile-play.jpg" alt="Toddlers playing on an inflatable crocodile at StarChasers" class="w-full h-full object-cover">
+              </div>
+              <div class="col-span-2 row-span-2 rounded-2xl overflow-hidden shadow-[0_4px_16px_rgba(232,69,69,0.08)]">
+                <img src="images/toddler-zebra-mask.jpg" alt="Toddler wearing a zebra mask at a themed session" class="w-full h-full object-cover">
+              </div>
+              <div class="col-span-2 row-span-2 rounded-2xl overflow-hidden shadow-[0_4px_16px_rgba(232,69,69,0.08)]">
+                <img src="images/girl-starbubs-parachute.jpg" alt="Girl in StarBubs t-shirt playing with a parachute" class="w-full h-full object-cover">
+              </div>
+              <div class="col-span-2 row-span-1 rounded-xl bg-sb-red/8 flex flex-col items-center justify-center p-3 text-center">
+                <span class="font-display font-bold text-sb-red text-3xl md:text-4xl">1-3</span>
+                <span class="font-body font-semibold text-sb-red/60 text-xs mt-0.5">years</span>
+              </div>
+              <div class="col-span-2 row-span-1 rounded-2xl overflow-hidden shadow-[0_4px_12px_rgba(232,69,69,0.06)]">
+                <img src="images/boy-croc-excited.jpg" alt="Excited boy on an inflatable crocodile" class="w-full h-full object-cover">
+              </div>
+            </div>
+          </div>
+
+          <!-- Content -->
+          <div class="reveal reveal-delay-2">
+            <div class="inline-flex items-center gap-2 bg-sb-red/10 text-sb-red px-3 py-1 rounded-full text-xs font-bold font-body uppercase tracking-wider mb-4">
+              <span class="w-2 h-2 rounded-full bg-sb-red"></span>
+              Walkers & Toddlers
+            </div>
+            <h2 class="font-display text-3xl md:text-4xl lg:text-5xl font-bold text-sb-dark">StarChasers</h2>
+            <p class="font-body text-base text-sb-dark/70 mt-4 leading-relaxed">
+              High energy, big adventures. Toddlers run, jump, dance, and explore themed worlds every week. Music, movement, and props keep them engaged from start to finish.
+            </p>
+
+            <ul class="activity-list mt-6 flex flex-col gap-3 font-body text-sm text-sb-dark/70">
+              <li>
+                <span class="absolute left-0 top-[10px] w-3 h-3 rounded-full bg-sb-red/20 border-2 border-sb-red"></span>
+                <strong class="text-sb-dark">Themed adventures</strong> — safari, under the sea, circus, and more every week
+              </li>
+              <li>
+                <span class="absolute left-0 top-[10px] w-3 h-3 rounded-full bg-sb-red/20 border-2 border-sb-red"></span>
+                <strong class="text-sb-dark">Music & dance</strong> — action songs, instruments, parachute play
+              </li>
+              <li>
+                <span class="absolute left-0 top-[10px] w-3 h-3 rounded-full bg-sb-red/20 border-2 border-sb-red"></span>
+                <strong class="text-sb-dark">Physical play</strong> — obstacle courses, inflatables, soft play equipment
+              </li>
+              <li>
+                <span class="absolute left-0 top-[10px] w-3 h-3 rounded-full bg-sb-red/20 border-2 border-sb-red"></span>
+                <strong class="text-sb-dark">Creative activities</strong> — messy play, role play, imaginative props
+              </li>
+            </ul>
+
+            <div class="flex flex-col sm:flex-row gap-3 mt-8">
+              <a href="#" class="btn-primary bg-sb-red text-white font-display font-semibold text-sm px-6 py-3 rounded-full text-center shadow-[0_4px_16px_rgba(232,69,69,0.3)]">
+                Book StarChasers
+              </a>
+              <a href="#" class="btn-secondary bg-white text-sb-dark font-display font-semibold text-sm px-6 py-3 rounded-full text-center shadow-[0_4px_16px_rgba(0,0,0,0.06)] border border-sb-dark/10">
+                View Timetable
+              </a>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ============================================ -->
+    <!-- NOT SURE WHICH CLASS?                        -->
+    <!-- ============================================ -->
+    <section class="bg-sb-cream py-20 md:py-28 px-4">
+      <div class="max-w-4xl mx-auto">
+        <div class="text-center mb-14 reveal">
+          <span class="text-sb-yellow text-3xl">&#9733;</span>
+          <h2 class="font-display text-3xl md:text-4xl lg:text-5xl font-bold text-sb-dark mt-2">Not sure which class?</h2>
+          <p class="font-body text-base md:text-lg text-sb-dark/60 mt-3 font-medium">It's simple — pick based on your child's age and stage.</p>
+        </div>
+
+        <!-- Age timeline -->
+        <div class="reveal reveal-delay-1 relative">
+
+          <div class="grid grid-cols-1 md:grid-cols-3 gap-6 md:gap-8">
+            <!-- StarGazers -->
+            <a href="#stargazers" class="group block bg-white rounded-2xl p-6 md:p-8 text-center shadow-[0_4px_24px_rgba(45,95,232,0.06),0_1px_4px_rgba(0,0,0,0.03)] border-2 border-transparent hover:border-sb-blue/20" style="transition: transform 0.4s cubic-bezier(0.34,1.56,0.64,1), border-color 0.3s ease">
+              <div class="w-20 h-20 mx-auto rounded-full bg-sb-blue/10 flex items-center justify-center mb-4 relative z-10" style="transition: transform 0.4s cubic-bezier(0.34,1.56,0.64,1)">
+                <span class="font-display font-bold text-sb-blue text-2xl">0-6m</span>
+              </div>
+              <h3 class="font-display font-bold text-sb-blue text-xl">StarGazers</h3>
+              <p class="font-body text-sm text-sb-dark/50 font-semibold mt-1">Newborns & Pre-Crawlers</p>
+              <p class="font-body text-sm text-sb-dark/60 mt-3 leading-relaxed">Not yet moving. Loves watching, listening, and being held.</p>
+              <span class="inline-block mt-4 font-display font-semibold text-sm text-sb-blue opacity-0 group-hover:opacity-100" style="transition: opacity 0.3s ease">View class &rarr;</span>
+            </a>
+
+            <!-- StarCruisers -->
+            <a href="#starcruisers" class="group block bg-white rounded-2xl p-6 md:p-8 text-center shadow-[0_4px_24px_rgba(61,190,92,0.06),0_1px_4px_rgba(0,0,0,0.03)] border-2 border-transparent hover:border-sb-green/20" style="transition: transform 0.4s cubic-bezier(0.34,1.56,0.64,1), border-color 0.3s ease">
+              <div class="w-20 h-20 mx-auto rounded-full bg-sb-green/10 flex items-center justify-center mb-4 relative z-10">
+                <span class="font-display font-bold text-sb-green text-2xl">6-12m</span>
+              </div>
+              <h3 class="font-display font-bold text-sb-green text-xl">StarCruisers</h3>
+              <p class="font-body text-sm text-sb-dark/50 font-semibold mt-1">Crawlers & Explorers</p>
+              <p class="font-body text-sm text-sb-dark/60 mt-3 leading-relaxed">On the move. Crawling, sitting, reaching for everything.</p>
+              <span class="inline-block mt-4 font-display font-semibold text-sm text-sb-green opacity-0 group-hover:opacity-100" style="transition: opacity 0.3s ease">View class &rarr;</span>
+            </a>
+
+            <!-- StarChasers -->
+            <a href="#starchasers" class="group block bg-white rounded-2xl p-6 md:p-8 text-center shadow-[0_4px_24px_rgba(232,69,69,0.06),0_1px_4px_rgba(0,0,0,0.03)] border-2 border-transparent hover:border-sb-red/20" style="transition: transform 0.4s cubic-bezier(0.34,1.56,0.64,1), border-color 0.3s ease">
+              <div class="w-20 h-20 mx-auto rounded-full bg-sb-red/10 flex items-center justify-center mb-4 relative z-10">
+                <span class="font-display font-bold text-sb-red text-2xl">1-3y</span>
+              </div>
+              <h3 class="font-display font-bold text-sb-red text-xl">StarChasers</h3>
+              <p class="font-body text-sm text-sb-dark/50 font-semibold mt-1">Walkers & Toddlers</p>
+              <p class="font-body text-sm text-sb-dark/60 mt-3 leading-relaxed">Walking, running, climbing. Full of energy and curiosity.</p>
+              <span class="inline-block mt-4 font-display font-semibold text-sm text-sb-red opacity-0 group-hover:opacity-100" style="transition: opacity 0.3s ease">View class &rarr;</span>
+            </a>
+          </div>
+
+          <!-- Reassurance note -->
+          <p class="reveal reveal-delay-2 text-center mt-8 font-body text-sm text-sb-dark/50 font-medium">
+            Not sure if your child is between stages? No worries — <a href="faq.html" class="text-sb-red font-semibold underline decoration-sb-red/30 hover:decoration-sb-red/60" style="transition: text-decoration-color 0.2s ease">we can help you choose</a>.
+          </p>
+        </div>
+      </div>
+    </section>
+
+    <!-- Wave divider -->
+    <div class="wave-divider text-white">
+      <svg viewBox="0 0 1440 60" preserveAspectRatio="none"><path d="M0,30 C360,55 720,5 1080,30 C1260,42 1380,18 1440,30 L1440,60 L0,60Z" fill="currentColor"/></svg>
+    </div>
+
+    <!-- ============================================ -->
+    <!-- SESSION STRUCTURE                            -->
+    <!-- ============================================ -->
+    <section class="bg-white py-20 md:py-28 px-4">
+      <div class="max-w-5xl mx-auto">
+        <div class="text-center mb-16 reveal">
+          <span class="text-sb-yellow text-3xl">&#9733;</span>
+          <h2 class="font-display text-3xl md:text-4xl lg:text-5xl font-bold text-sb-dark mt-2">Every session follows the same flow</h2>
+          <p class="font-body text-base md:text-lg text-sb-dark/60 mt-3 font-medium max-w-2xl mx-auto">Structure creates reassurance. Your child learns the routine and so do you.</p>
+        </div>
+
+        <!-- Steps - vertical timeline on mobile, horizontal on desktop -->
+        <div class="relative">
+          <!-- Desktop connector -->
+          <div class="hidden md:block absolute top-8 left-[10%] right-[10%] h-0.5 bg-gradient-to-r from-sb-blue via-sb-yellow to-sb-red opacity-20" aria-hidden="true"></div>
+
+          <div class="grid grid-cols-1 md:grid-cols-5 gap-10 md:gap-4">
+            <div class="reveal reveal-delay-1 flex flex-col items-center text-center">
+              <div class="w-16 h-16 rounded-full bg-sb-blue/10 border-2 border-sb-blue/20 flex items-center justify-center mb-4 relative z-10">
+                <svg class="w-7 h-7 text-sb-blue" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M9 18V5l12-2v13"/><circle cx="6" cy="18" r="3"/><circle cx="18" cy="16" r="3"/></svg>
+              </div>
+              <h3 class="font-display font-bold text-sb-dark text-base">Hello Songs</h3>
+              <p class="font-body text-sm text-sb-dark/60 mt-2 font-medium">Familiar songs and friendly faces. Everyone settles in together.</p>
+            </div>
+
+            <div class="reveal reveal-delay-1 flex flex-col items-center text-center">
+              <div class="w-16 h-16 rounded-full bg-sb-green/10 border-2 border-sb-green/20 flex items-center justify-center mb-4 relative z-10">
+                <svg class="w-7 h-7 text-sb-green" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
+              </div>
+              <h3 class="font-display font-bold text-sb-dark text-base">Themed Activities</h3>
+              <p class="font-body text-sm text-sb-dark/60 mt-2 font-medium">New theme every week. Sensory props and age-matched activities.</p>
+            </div>
+
+            <div class="reveal reveal-delay-2 flex flex-col items-center text-center">
+              <div class="w-16 h-16 rounded-full bg-sb-yellow/15 border-2 border-sb-yellow/25 flex items-center justify-center mb-4 relative z-10">
+                <svg class="w-7 h-7 text-sb-yellow" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M20.84 4.61a5.5 5.5 0 00-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 00-7.78 7.78L12 21.23l8.84-8.84a5.5 5.5 0 000-7.78z"/></svg>
+              </div>
+              <h3 class="font-display font-bold text-sb-dark text-base">Music & Movement</h3>
+              <p class="font-body text-sm text-sb-dark/60 mt-2 font-medium">Instruments, action songs, and parachute play.</p>
+            </div>
+
+            <div class="reveal reveal-delay-3 flex flex-col items-center text-center">
+              <div class="w-16 h-16 rounded-full bg-sb-red/10 border-2 border-sb-red/20 flex items-center justify-center mb-4 relative z-10">
+                <svg class="w-7 h-7 text-sb-red" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="12" cy="12" r="10"/><path d="M8 14s1.5 2 4 2 4-2 4-2"/><line x1="9" y1="9" x2="9.01" y2="9"/><line x1="15" y1="9" x2="15.01" y2="9"/></svg>
+              </div>
+              <h3 class="font-display font-bold text-sb-dark text-base">Exploration Station</h3>
+              <p class="font-body text-sm text-sb-dark/60 mt-2 font-medium">Free play. Your little one explores at their own pace.</p>
+            </div>
+
+            <div class="reveal reveal-delay-4 flex flex-col items-center text-center">
+              <div class="w-16 h-16 rounded-full bg-sb-blue/10 border-2 border-sb-blue/20 flex items-center justify-center mb-4 relative z-10">
+                <svg class="w-7 h-7 text-sb-blue" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M17 21v-2a4 4 0 00-4-4H5a4 4 0 00-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 00-3-3.87"/><path d="M16 3.13a4 4 0 010 7.75"/></svg>
+              </div>
+              <h3 class="font-display font-bold text-sb-dark text-base">Calm Wind-Down</h3>
+              <p class="font-body text-sm text-sb-dark/60 mt-2 font-medium">Soft songs and quiet time. A gentle ending before heading home.</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ============================================ -->
+    <!-- WEEKLY THEMES                                -->
+    <!-- ============================================ -->
+    <section class="bg-sb-cream py-20 md:py-28 px-4 relative overflow-hidden">
+      <div class="absolute top-0 right-0 w-80 h-80 rounded-full bg-sb-yellow/5" aria-hidden="true" style="transform: translate(30%, -30%)"></div>
+
+      <div class="max-w-5xl mx-auto">
+        <div class="text-center mb-14 reveal">
+          <span class="text-sb-yellow text-3xl">&#9733;</span>
+          <h2 class="font-display text-3xl md:text-4xl lg:text-5xl font-bold text-sb-dark mt-2">A new theme every week</h2>
+          <p class="font-body text-base md:text-lg text-sb-dark/60 mt-3 font-medium">Themes keep things fresh, exciting, and varied for your little one.</p>
+        </div>
+
+        <div class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-5 gap-4 md:gap-5">
+          <!-- Safari -->
+          <div class="reveal reveal-delay-1 theme-card bg-white rounded-2xl p-5 md:p-6 text-center shadow-[0_2px_12px_rgba(245,197,24,0.08),0_1px_3px_rgba(0,0,0,0.03)]">
+            <div class="text-4xl mb-3">&#x1F981;</div>
+            <h3 class="font-display font-bold text-sb-dark text-sm">Safari</h3>
+            <p class="font-body text-xs text-sb-dark/50 mt-1 font-medium">Jungle animals & exploration</p>
+          </div>
+
+          <!-- Under the Sea -->
+          <div class="reveal reveal-delay-1 theme-card bg-white rounded-2xl p-5 md:p-6 text-center shadow-[0_2px_12px_rgba(45,95,232,0.08),0_1px_3px_rgba(0,0,0,0.03)]">
+            <div class="text-4xl mb-3">&#x1F419;</div>
+            <h3 class="font-display font-bold text-sb-dark text-sm">Under the Sea</h3>
+            <p class="font-body text-xs text-sb-dark/50 mt-1 font-medium">Ocean creatures & water play</p>
+          </div>
+
+          <!-- Circus -->
+          <div class="reveal reveal-delay-2 theme-card bg-white rounded-2xl p-5 md:p-6 text-center shadow-[0_2px_12px_rgba(232,69,69,0.08),0_1px_3px_rgba(0,0,0,0.03)]">
+            <div class="text-4xl mb-3">&#x1F3AA;</div>
+            <h3 class="font-display font-bold text-sb-dark text-sm">Circus</h3>
+            <p class="font-body text-xs text-sb-dark/50 mt-1 font-medium">Clowns, colours & balancing</p>
+          </div>
+
+          <!-- Disney -->
+          <div class="reveal reveal-delay-3 theme-card bg-white rounded-2xl p-5 md:p-6 text-center shadow-[0_2px_12px_rgba(61,190,92,0.08),0_1px_3px_rgba(0,0,0,0.03)]">
+            <div class="text-4xl mb-3">&#x2728;</div>
+            <h3 class="font-display font-bold text-sb-dark text-sm">Disney</h3>
+            <p class="font-body text-xs text-sb-dark/50 mt-1 font-medium">Favourite characters & stories</p>
+          </div>
+
+          <!-- Sports -->
+          <div class="reveal reveal-delay-4 theme-card bg-white rounded-2xl p-5 md:p-6 text-center shadow-[0_2px_12px_rgba(245,197,24,0.08),0_1px_3px_rgba(0,0,0,0.03)]">
+            <div class="text-4xl mb-3">&#x26BD;</div>
+            <h3 class="font-display font-bold text-sb-dark text-sm">Sports</h3>
+            <p class="font-body text-xs text-sb-dark/50 mt-1 font-medium">Balls, races & team fun</p>
+          </div>
+        </div>
+
+        <p class="reveal text-center mt-8 font-body text-sm text-sb-dark/50 font-medium">
+          Plus many more throughout the term. Themes change weekly so there's always something new.
+        </p>
+      </div>
+    </section>
+
+    <!-- Wave divider -->
+    <div class="wave-divider text-white">
+      <svg viewBox="0 0 1440 60" preserveAspectRatio="none"><path d="M0,20 C480,55 960,5 1440,35 L1440,60 L0,60Z" fill="currentColor"/></svg>
+    </div>
+
+    <!-- ============================================ -->
+    <!-- CLASS FAQ                                    -->
+    <!-- ============================================ -->
+    <section id="faq" class="bg-white py-20 md:py-28 px-4">
+      <div class="max-w-3xl mx-auto">
+        <div class="text-center mb-14 reveal">
+          <span class="text-sb-yellow text-3xl">&#9733;</span>
+          <h2 class="font-display text-3xl md:text-4xl lg:text-5xl font-bold text-sb-dark mt-2">Class questions</h2>
+        </div>
+
+        <div class="flex flex-col gap-3">
+          <div class="faq-item reveal reveal-delay-1 bg-sb-cream rounded-xl border border-sb-dark/5">
+            <button class="faq-trigger w-full flex items-center justify-between p-5 md:p-6 text-left" aria-expanded="false">
+              <span class="font-display font-semibold text-base md:text-lg text-sb-dark pr-4">My baby is between age groups — which class?</span>
+              <span class="faq-icon text-sb-blue text-2xl font-light shrink-0 leading-none">+</span>
+            </button>
+            <div class="faq-answer">
+              <div>
+                <p class="px-5 md:px-6 pb-5 md:pb-6 font-body text-sm md:text-base text-sb-dark/70 leading-relaxed">It depends on their stage more than their exact age. If your baby is 6 months but not yet crawling, StarGazers might be a better fit. If they're mobile and curious, StarCruisers is the one. Drop us a message and we'll help you decide.</p>
+              </div>
+            </div>
+          </div>
+
+          <div class="faq-item reveal reveal-delay-2 bg-sb-cream rounded-xl border border-sb-dark/5">
+            <button class="faq-trigger w-full flex items-center justify-between p-5 md:p-6 text-left" aria-expanded="false">
+              <span class="font-display font-semibold text-base md:text-lg text-sb-dark pr-4">Can my child move up to the next class mid-term?</span>
+              <span class="faq-icon text-sb-green text-2xl font-light shrink-0 leading-none">+</span>
+            </button>
+            <div class="faq-answer">
+              <div>
+                <p class="px-5 md:px-6 pb-5 md:pb-6 font-body text-sm md:text-base text-sb-dark/70 leading-relaxed">Absolutely. Children develop at their own speed. If your little one has outgrown their current class, just let Melody know and we'll move them up when a space is available.</p>
+              </div>
+            </div>
+          </div>
+
+          <div class="faq-item reveal reveal-delay-3 bg-sb-cream rounded-xl border border-sb-dark/5">
+            <button class="faq-trigger w-full flex items-center justify-between p-5 md:p-6 text-left" aria-expanded="false">
+              <span class="font-display font-semibold text-base md:text-lg text-sb-dark pr-4">Are siblings welcome at the same session?</span>
+              <span class="faq-icon text-sb-red text-2xl font-light shrink-0 leading-none">+</span>
+            </button>
+            <div class="faq-answer">
+              <div>
+                <p class="px-5 md:px-6 pb-5 md:pb-6 font-body text-sm md:text-base text-sb-dark/70 leading-relaxed">If your children are in different age groups, they'll need to attend their own class. But we try to schedule sessions so you can do both on the same day where possible.</p>
+              </div>
+            </div>
+          </div>
+
+          <div class="faq-item reveal reveal-delay-4 bg-sb-cream rounded-xl border border-sb-dark/5">
+            <button class="faq-trigger w-full flex items-center justify-between p-5 md:p-6 text-left" aria-expanded="false">
+              <span class="font-display font-semibold text-base md:text-lg text-sb-dark pr-4">How many children are in each class?</span>
+              <span class="faq-icon text-sb-yellow text-2xl font-light shrink-0 leading-none">+</span>
+            </button>
+            <div class="faq-answer">
+              <div>
+                <p class="px-5 md:px-6 pb-5 md:pb-6 font-body text-sm md:text-base text-sb-dark/70 leading-relaxed">We keep numbers small so every child gets attention. Sessions are capped to make sure it never feels crowded or overwhelming.</p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ============================================ -->
+    <!-- BOTTOM CTA                                   -->
+    <!-- ============================================ -->
+    <section class="relative bg-sb-blue py-20 md:py-28 px-4 overflow-hidden">
+      <div class="absolute top-8 left-8 w-20 h-20 rounded-full bg-white/5" aria-hidden="true" style="animation: float 5s ease-in-out infinite"></div>
+      <div class="absolute bottom-12 right-16 w-32 h-32 rounded-full bg-sb-yellow/10" aria-hidden="true" style="animation: float 6s ease-in-out 1s infinite"></div>
+      <div class="absolute top-1/2 left-1/4 w-3 h-3 bg-sb-yellow rounded-full" aria-hidden="true" style="animation: pulseGlow 3s ease infinite"></div>
+      <div class="absolute top-1/3 right-1/3 w-2 h-2 bg-white rounded-full" aria-hidden="true" style="animation: pulseGlow 4s ease 1s infinite"></div>
+
+      <div class="max-w-3xl mx-auto text-center relative z-10 reveal">
+        <h2 class="font-display text-3xl md:text-4xl lg:text-5xl font-bold text-white">Ready to try a class?</h2>
+        <p class="font-body text-base md:text-lg text-white/70 mt-4 font-medium">Babies under 8 weeks attend free. No commitment, no pressure. Just come along.</p>
+        <div class="flex flex-col sm:flex-row gap-4 justify-center mt-8">
+          <a href="#" class="btn-primary inline-block bg-sb-yellow text-sb-dark font-display font-bold text-base md:text-lg px-10 py-4 rounded-full shadow-[0_4px_24px_rgba(245,197,24,0.4)]">
+            Book Your First Class
+          </a>
+          <a href="index.html#melody" class="btn-secondary inline-block bg-white/10 text-white font-display font-semibold text-base md:text-lg px-8 py-4 rounded-full border border-white/20">
+            Meet Melody First
+          </a>
+        </div>
+      </div>
+    </section>
+
+  </main>
+
+  <!-- FOOTER -->
+  <footer class="bg-sb-dark text-white/60 py-16 px-4">
+    <div class="max-w-6xl mx-auto">
+      <div class="grid grid-cols-2 md:grid-cols-4 gap-10 md:gap-8">
+        <div class="col-span-2 md:col-span-1">
+          <img src="images/logo-transparent-sm.png" alt="StarBubs" class="h-14 w-auto mb-4 opacity-80">
+          <p class="font-body text-sm leading-relaxed">Baby & toddler classes in Bridgwater and Taunton. Teacher-led. Structured. Fun.</p>
+        </div>
+        <div>
+          <h4 class="font-display font-semibold text-white text-sm uppercase tracking-wider mb-4">Quick Links</h4>
+          <ul class="flex flex-col gap-2 font-body text-sm">
+            <li><a href="index.html" class="hover:text-white" style="transition: color 0.2s ease">Home</a></li>
+            <li><a href="classes.html" class="hover:text-white" style="transition: color 0.2s ease">Classes</a></li>
+            <li><a href="locations.html" class="hover:text-white" style="transition: color 0.2s ease">Locations</a></li>
+            <li><a href="#" class="hover:text-white" style="transition: color 0.2s ease">Book</a></li>
+            <li><a href="index.html#melody" class="hover:text-white" style="transition: color 0.2s ease">About</a></li>
+          </ul>
+        </div>
+        <div>
+          <h4 class="font-display font-semibold text-white text-sm uppercase tracking-wider mb-4">Classes</h4>
+          <ul class="flex flex-col gap-2 font-body text-sm">
+            <li><a href="#stargazers" class="hover:text-white" style="transition: color 0.2s ease">StarGazers (0-6m)</a></li>
+            <li><a href="#starcruisers" class="hover:text-white" style="transition: color 0.2s ease">StarCruisers (6-12m)</a></li>
+            <li><a href="#starchasers" class="hover:text-white" style="transition: color 0.2s ease">StarChasers (1-3y)</a></li>
+          </ul>
+        </div>
+        <div>
+          <h4 class="font-display font-semibold text-white text-sm uppercase tracking-wider mb-4">Get in Touch</h4>
+          <ul class="flex flex-col gap-2 font-body text-sm">
+            <li><a href="faq.html" class="hover:text-white" style="transition: color 0.2s ease">FAQs</a></li>
+            <li><a href="contact.html" class="hover:text-white" style="transition: color 0.2s ease">Contact Us</a></li>
+            <li><a href="blog.html" class="hover:text-white" style="transition: color 0.2s ease">Blog</a></li>
+          </ul>
+          <div class="flex gap-3 mt-5">
+            <a href="#" aria-label="Facebook" class="w-9 h-9 rounded-full bg-white/10 flex items-center justify-center hover:bg-white/20" style="transition: background-color 0.2s ease">
+              <svg class="w-4 h-4 text-white" viewBox="0 0 24 24" fill="currentColor"><path d="M24 12.073c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.99 4.388 10.954 10.125 11.854v-8.385H7.078v-3.47h3.047V9.43c0-3.007 1.792-4.669 4.533-4.669 1.312 0 2.686.235 2.686.235v2.953H15.83c-1.491 0-1.956.925-1.956 1.874v2.25h3.328l-.532 3.47h-2.796v8.385C19.612 23.027 24 18.062 24 12.073z"/></svg>
+            </a>
+            <a href="#" aria-label="Instagram" class="w-9 h-9 rounded-full bg-white/10 flex items-center justify-center hover:bg-white/20" style="transition: background-color 0.2s ease">
+              <svg class="w-4 h-4 text-white" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zM12 0C8.741 0 8.333.014 7.053.072 2.695.272.273 2.69.073 7.052.014 8.333 0 8.741 0 12c0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98C8.333 23.986 8.741 24 12 24c3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98C15.668.014 15.259 0 12 0zm0 5.838a6.162 6.162 0 100 12.324 6.162 6.162 0 000-12.324zM12 16a4 4 0 110-8 4 4 0 010 8zm6.406-11.845a1.44 1.44 0 100 2.881 1.44 1.44 0 000-2.881z"/></svg>
+            </a>
+            <a href="#" aria-label="TikTok" class="w-9 h-9 rounded-full bg-white/10 flex items-center justify-center hover:bg-white/20" style="transition: background-color 0.2s ease">
+              <svg class="w-4 h-4 text-white" viewBox="0 0 24 24" fill="currentColor"><path d="M19.59 6.69a4.83 4.83 0 01-3.77-4.25V2h-3.45v13.67a2.89 2.89 0 01-2.88 2.5 2.89 2.89 0 01-2.89-2.89 2.89 2.89 0 012.89-2.89c.28 0 .54.04.79.1v-3.5a6.37 6.37 0 00-.79-.05A6.34 6.34 0 003.15 15.2a6.34 6.34 0 0010.86 4.46V13a8.28 8.28 0 005.58 2.15v-3.44a4.85 4.85 0 01-3.77-1.25V6.69h3.77z"/></svg>
+            </a>
+          </div>
+        </div>
+      </div>
+      <div class="border-t border-white/10 mt-12 pt-8 flex flex-col md:flex-row justify-between items-center gap-4">
+        <p class="font-body text-xs text-white/40">&copy; 2025 StarBubs. All rights reserved.</p>
+        <div class="flex gap-6 font-body text-xs text-white/40">
+          <a href="#" class="hover:text-white/60" style="transition: color 0.2s ease">Privacy Policy</a>
+          <a href="#" class="hover:text-white/60" style="transition: color 0.2s ease">Terms of Service</a>
+        </div>
+      </div>
+    </div>
+  </footer>
+
+  <script>
+    // ======================== SCROLL REVEAL ========================
+    const revealObserver = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          entry.target.classList.add('active');
+          revealObserver.unobserve(entry.target);
+        }
+      });
+    }, { threshold: 0.15, rootMargin: '0px 0px -40px 0px' });
+
+    document.querySelectorAll('.reveal').forEach(el => revealObserver.observe(el));
+
+    // ======================== FAQ ACCORDION ========================
+    document.querySelectorAll('.faq-trigger').forEach(btn => {
+      btn.addEventListener('click', () => {
+        const item = btn.closest('.faq-item');
+        const isOpen = item.classList.contains('open');
+
+        document.querySelectorAll('.faq-item.open').forEach(openItem => {
+          openItem.classList.remove('open');
+          openItem.querySelector('.faq-trigger').setAttribute('aria-expanded', 'false');
+        });
+
+        if (!isOpen) {
+          item.classList.add('open');
+          btn.setAttribute('aria-expanded', 'true');
+        }
+      });
+    });
+
+    // ======================== MOBILE NAV ========================
+    const menuBtn = document.getElementById('menuBtn');
+    const mobileMenu = document.getElementById('mobileMenu');
+    const mobileBackdrop = document.getElementById('mobileBackdrop');
+
+    function toggleMenu() {
+      const isOpen = mobileMenu.classList.contains('open');
+      mobileMenu.classList.toggle('open');
+      mobileBackdrop.classList.toggle('open');
+      menuBtn.classList.toggle('open');
+      document.body.style.overflow = isOpen ? '' : 'hidden';
+    }
+
+    menuBtn.addEventListener('click', toggleMenu);
+    mobileBackdrop.addEventListener('click', toggleMenu);
+
+    document.querySelectorAll('.mobile-link').forEach(link => {
+      link.addEventListener('click', () => {
+        if (mobileMenu.classList.contains('open')) toggleMenu();
+      });
+    });
+  </script>
+</body>
+</html>
